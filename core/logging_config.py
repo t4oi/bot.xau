@@ -12,7 +12,7 @@ try:
 except ImportError:  # pragma: no cover
     _HAS_COLOR = False
 
-from ..config.constants import APP_NAME, DEFAULT_LOG_DIR
+from config.constants import APP_NAME, DEFAULT_LOG_DIR
 
 _LOGGER_CACHE: dict = {}
 
