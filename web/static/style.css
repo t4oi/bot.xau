@@ -1,0 +1,37 @@
+/* Dashboard styles */
+:root {
+  --bg: #0f172a; --panel: #1e293b; --border: #334155;
+  --text: #e2e8f0; --muted: #94a3b8; --accent: #fbbf24;
+  --buy: #4ade80; --sell: #f87171; --info: #38bdf8;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); }
+header { background:var(--panel); padding:1rem 2rem; border-bottom:2px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center; }
+header h1 { font-size:1.3rem; color:var(--accent); }
+.status-pill { padding:.4rem 1rem; border-radius:20px; font-size:.85rem; font-weight:bold; }
+.status-ok { background:#166534; color:#86efac; }
+.status-down { background:#991b1b; color:#fca5a5; }
+.container { max-width:1200px; margin:0 auto; padding:2rem; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-bottom:2rem; }
+.card { background:var(--panel); border-radius:12px; padding:1.2rem; border:1px solid var(--border); transition:transform .2s; }
+.card:hover { transform:translateY(-2px); }
+.card h3 { font-size:.75rem; color:var(--muted); text-transform:uppercase; letter-spacing:.05em; margin-bottom:.5rem; }
+.card .value { font-size:1.7rem; font-weight:bold; color:var(--accent); }
+.card .sub { font-size:.75rem; color:#64748b; margin-top:.3rem; }
+table { width:100%; border-collapse:collapse; background:var(--panel); border-radius:12px; overflow:hidden; margin-bottom:2rem; }
+th,td { padding:.75rem; text-align:right; border-bottom:1px solid var(--border); font-size:.82rem; }
+th { background:#0f172a; color:var(--muted); font-weight:600; text-transform:uppercase; font-size:.7rem; }
+tr:hover { background:#263449; }
+.buy { color:var(--buy); font-weight:bold; }
+.sell { color:var(--sell); font-weight:bold; }
+.section-title { font-size:1.05rem; margin:1.5rem 0 .8rem; color:#cbd5e1; border-right:3px solid var(--accent); padding-right:.8rem; }
+.bar { height:6px; background:var(--border); border-radius:3px; overflow:hidden; margin-top:.3rem; }
+.bar-fill { height:100%; background:linear-gradient(90deg,#f59e0b,#fbbf24); border-radius:3px; }
+.chart { width:100%; height:200px; background:var(--panel); border-radius:12px; padding:1rem; }
+.refresh { text-align:center; margin-top:2rem; color:#64748b; font-size:.75rem; }
+code { background:#0f172a; padding:.15rem .4rem; border-radius:4px; font-size:.8em; color:var(--info); }
+.tabs { display:flex; gap:.5rem; margin-bottom:1rem; }
+.tab { padding:.5rem 1rem; background:var(--panel); border:1px solid var(--border); border-radius:8px;
+  cursor:pointer; font-size:.85rem; color:var(--muted); }
+.tab.active { background:var(--accent); color:#0f172a; font-weight:bold; }

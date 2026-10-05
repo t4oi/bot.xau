@@ -1,8 +1,39 @@
-python-telegram-bot
-Flask
-gunicorn
-httpx
-supabase
-pycryptodome
-requests
-web3
+# =============================================================================
+# XAUUSD Pro Signal Bot — Python Dependencies
+# =============================================================================
+# Core HTTP & data
+requests>=2.31.0
+httpx>=0.25.0
+urllib3>=2.0.0
+
+# Telegram
+python-telegram-bot>=20.7
+
+# Data processing
+numpy>=1.26.0
+pandas>=2.1.0
+
+# Database
+SQLAlchemy>=2.0.23
+alembic>=1.12.0
+
+# Web dashboard
+Flask>=3.0.0
+gunicorn>=21.2.0
+
+# Scheduling
+APScheduler>=3.10.4
+
+# Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Utilities
+python-dotenv>=1.0.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+tenacity>=8.2.3
+colorlog>=6.7.0
+tabulate>=0.9.0
+plotly>=5.18.0
+kaleido>=0.2.1
