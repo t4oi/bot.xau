@@ -5,9 +5,9 @@ import os
 from datetime import datetime
 from typing import Dict, List, Optional
 
-from ..config.constants import DEFAULT_DATA_DIR
-from ..core.logging_config import get_logger
-from .base import Candle
+from config.constants import DEFAULT_DATA_DIR
+from core.logging_config import get_logger
+from data.base import Candle
 
 logger = get_logger("data.storage")
 
