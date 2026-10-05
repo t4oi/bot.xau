@@ -11,14 +11,14 @@ import urllib.parse
 import urllib.request
 from typing import Any, Dict, List, Optional
 
-from ..config.constants import (
+from config.constants import (
     APP_NAME, APP_VERSION, DEFAULT_SYMBOL,
     HTTP_MAX_RETRIES, HTTP_BACKOFF_FACTOR, RATE_LIMIT_SLEEP_SECONDS,
 )
-from ..core.exceptions import DataSourceError
-from ..core.logging_config import get_logger
-from ..core.utils import safe_float, midpoint, round_price
-from .base import Candle, DataSource, Tick
+from core.exceptions import DataSourceError
+from core.logging_config import get_logger
+from core.utils import safe_float, midpoint, round_price
+from data.base import Candle, DataSource, Tick
 
 logger = get_logger("data.biquote")
 
