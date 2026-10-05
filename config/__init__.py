@@ -1,5 +1,11 @@
-"""Configuration package for XAUUSD Pro Signal Bot."""
-from .settings import Settings, get_settings
-from .constants import *  # noqa: F401,F403
+"""
+Config package initialization.
+"""
+from config.settings import Settings, get_settings, reload_settings
+from config.constants import *
 
-__all__ = ["Settings", "get_settings"]
+__all__ = [
+    "Settings",
+    "get_settings",
+    "reload_settings",
+]
