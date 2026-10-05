@@ -3,8 +3,8 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Dict, List
 
-from ..config.constants import SignalDirection, Timeframe
-from ..strategies.base import SignalVote
+from config.constants import SignalDirection, Timeframe
+from strategies.base import SignalVote
 
 
 class ConfluenceScorer:
