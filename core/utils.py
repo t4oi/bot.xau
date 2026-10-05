@@ -6,8 +6,8 @@ import math
 import time
 from typing import Any, Callable, Iterable, Iterator, List, Optional, TypeVar
 
-from .exceptions import BotError
-from ..config.constants import SYMBOL_DIGITS, HTTP_MAX_RETRIES, HTTP_BACKOFF_FACTOR
+from core.exceptions import BotError
+from config.constants import SYMBOL_DIGITS, HTTP_MAX_RETRIES, HTTP_BACKOFF_FACTOR
 
 T = TypeVar("T")
 
