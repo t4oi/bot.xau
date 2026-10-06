@@ -21,16 +21,20 @@ class JobScheduler:
         self.formatter = SignalFormatter()
         self._stop = threading.Event()
         self._threads = []
+        self._last_heartbeat_alert = 0.0  # alert cooldown
 
     def _heartbeat(self, interval: int = 300) -> None:
         while not self._stop.is_set():
             try:
                 if self.scan_loop:
-                    age = time.time() - self.scan_loop.state.last_scan
-                    if age > interval * 3:
-                        self.telegram.send_message(
-                            f"⚠️ <b>تنبيه:</b> آخر فحص كان منذ {age/60:.0f} دقيقة — قد يكون هناك عطل."
-                        )
+                    last = self.scan_loop.state.last_scan
+                    if last > 0:  # only alert if at least one scan has run
+                        age = time.time() - last
+                        if age > interval * 3 and time.time() - self._last_heartbeat_alert > 3600:
+                            self.telegram.send_message(
+                                f"⚠️ <b>تنبيه:</b> آخر فحص كان منذ {age/60:.0f} دقيقة — قد يكون هناك عطل."
+                            )
+                            self._last_heartbeat_alert = time.time()
                 logger.info("Heartbeat OK")
             except Exception as exc:  # noqa: BLE001
                 logger.error("Heartbeat failed: %s", exc)

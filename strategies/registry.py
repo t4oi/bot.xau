@@ -73,12 +73,14 @@ def register_defaults(registry: StrategyRegistry) -> None:
         KeltnerBounceStrategy, VWAPBounceStrategy, EMARibbonStrategy,
         HeikinAshiStrategy, TripleScreenStrategy, SupertrendStrategy,
     )
+    from .candlestick_pattern import CandlestickPatternStrategy
     for cls in (TrendFollowingStrategy, MeanReversionStrategy, BreakoutStrategy,
                 ScalpingStrategy, IchimokuStrategy, MacdRsiStrategy,
                 BollingerSqueezeStrategy, SupplyDemandStrategy,
                 MomentumDivergenceStrategy, SmartMoneyConceptsStrategy,
                 HarmonicPatternStrategy, VolumeSpreadStrategy,
                 KeltnerBounceStrategy, VWAPBounceStrategy, EMARibbonStrategy,
-                HeikinAshiStrategy, TripleScreenStrategy, SupertrendStrategy):
+                HeikinAshiStrategy, TripleScreenStrategy, SupertrendStrategy,
+                CandlestickPatternStrategy):
         registry.register(cls)
     logger.info("Registered %d default strategies", len(registry))

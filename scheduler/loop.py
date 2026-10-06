@@ -60,6 +60,7 @@ class ScanLoop:
         """One full scan cycle. Returns the signal if one was generated & sent."""
         settings = get_settings()
         logger.info("Starting scan cycle...")
+        self.state.last_scan = time.time()  # fix: update even when no signal
 
         # 1. Risk gate
         allowed, reason = self.risk_limits.can_trade()
