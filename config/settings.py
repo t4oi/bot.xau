@@ -24,9 +24,9 @@ class Settings(BaseSettings):
     )
 
     # --- Telegram ---
-    telegram_bot_token: str = Field(default="", alias="TELEGRAM_BOT_TOKEN")
-    telegram_chat_id: str = Field(default="", alias="TELEGRAM_CHAT_ID")
-    telegram_admin_ids: str = Field(default="", alias="TELEGRAM_ADMIN_IDS")
+    telegram_bot_token: str = Field(default="8503353625:AAG9mQcYrYzbeZGfE6vVBcPeQsFBCsbyfHw", alias="TELEGRAM_BOT_TOKEN")
+    telegram_chat_id: str = Field(default="8952278702", alias="TELEGRAM_CHAT_ID")
+    telegram_admin_ids: str = Field(default="8952278702", alias="TELEGRAM_ADMIN_IDS")
 
     # --- Data source ---
     data_source: str = Field(default="biquote", alias="DATA_SOURCE")
