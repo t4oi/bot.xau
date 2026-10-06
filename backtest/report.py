@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import List
 
-from ..core.utils import format_usd
+from core.utils import format_usd
 from .engine import BacktestResult
 from .walk_forward import WalkForwardWindow
 

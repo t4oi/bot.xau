@@ -3,8 +3,8 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Dict, List, Tuple
 
-from ..data.base import Candle
-from ..core.utils import to_utc
+from data.base import Candle
+from core.utils import to_utc
 
 
 class SeasonalityAnalyzer:

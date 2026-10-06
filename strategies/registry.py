@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import Dict, List, Optional, Type
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 from .base import Strategy
 
 logger = get_logger("strategies.registry")

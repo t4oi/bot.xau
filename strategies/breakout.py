@@ -3,9 +3,9 @@ from __future__ import annotations
 import math
 from typing import List
 
-from ..data.base import Candle
-from ..indicators.volatility import donchian_channels, average_true_range
-from ..indicators.volume import volume_spike
+from data.base import Candle
+from indicators.volatility import donchian_channels, average_true_range
+from indicators.volume import volume_spike
 from .base import Strategy, StrategyResult
 
 

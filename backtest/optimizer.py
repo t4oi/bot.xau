@@ -5,7 +5,7 @@ import random
 from dataclasses import dataclass
 from typing import Any, Callable, Dict, List, Optional, Tuple
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 from .engine import BacktestEngine, BacktestResult, SignalFn
 from .metrics import PerformanceMetrics
 

@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import Dict, List, Optional
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 from .channels import NotificationChannel
 
 logger = get_logger("notifications.manager")

@@ -7,7 +7,7 @@ from typing import Dict, List, Optional
 
 from config.constants import DEFAULT_DATA_DIR
 from core.logging_config import get_logger
-from data.base import Candle
+from .base import Candle
 
 logger = get_logger("data.storage")
 

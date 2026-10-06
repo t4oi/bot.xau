@@ -5,7 +5,7 @@ import random
 from dataclasses import dataclass, field
 from typing import Dict, List
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 from .engine import BacktestTrade, BacktestResult
 from .metrics import compute_metrics, PerformanceMetrics
 

@@ -3,9 +3,9 @@ from __future__ import annotations
 import math
 from typing import List
 
-from ..data.base import Candle
-from ..indicators.trend import ema
-from ..indicators.momentum import rsi, stochastic, macd
+from data.base import Candle
+from indicators.trend import ema
+from indicators.momentum import rsi, stochastic, macd
 from .base import Strategy, StrategyResult
 
 

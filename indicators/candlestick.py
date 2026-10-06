@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import Dict, List, Optional
 
-from ..data.base import Candle
+from data.base import Candle
 
 
 def _body(c: Candle) -> float:

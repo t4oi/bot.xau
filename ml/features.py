@@ -3,10 +3,10 @@ from __future__ import annotations
 import math
 from typing import Dict, List, Optional
 
-from ..data.base import Candle
-from ..indicators.trend import ema, sma, adx
-from ..indicators.momentum import rsi, macd, stochastic, roc, cci, williams_r
-from ..indicators.volatility import bollinger_bands, average_true_range, standard_deviation
+from data.base import Candle
+from indicators.trend import ema, sma, adx
+from indicators.momentum import rsi, macd, stochastic, roc, cci, williams_r
+from indicators.volatility import bollinger_bands, average_true_range, standard_deviation
 
 
 class FeatureEngineer:

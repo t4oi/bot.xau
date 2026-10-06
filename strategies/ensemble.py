@@ -3,9 +3,9 @@ from __future__ import annotations
 from collections import defaultdict
 from typing import Dict, List
 
-from ..config.constants import SignalDirection
-from ..core.logging_config import get_logger
-from ..data.base import Candle
+from config.constants import SignalDirection
+from core.logging_config import get_logger
+from data.base import Candle
 from .base import Strategy, StrategyResult, SignalVote
 from .registry import get_registry
 

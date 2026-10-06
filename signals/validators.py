@@ -3,10 +3,10 @@ from __future__ import annotations
 import math
 from typing import Dict, List, Optional, Tuple
 
-from ..config.constants import SignalDirection, GOLD_MAX_SPREAD
-from ..core.logging_config import get_logger
-from ..data.base import Candle, Tick
-from ..signal.generator import TradingSignal
+from config.constants import SignalDirection, GOLD_MAX_SPREAD
+from core.logging_config import get_logger
+from data.base import Candle, Tick
+from signals.generator import TradingSignal
 
 logger = get_logger("signal.validators")
 

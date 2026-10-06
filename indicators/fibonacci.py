@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import Dict, List
 
-from ..core.utils import round_price
+from core.utils import round_price
 
 
 RATIOS = [0.0, 0.236, 0.382, 0.5, 0.618, 0.786, 1.0]
@@ -52,7 +52,7 @@ def nearest_fib_level(price: float, levels: Dict[str, float]) -> Dict[str, float
 
 def pivot_points_full(high: float, low: float, close: float, method: str = "classic") -> Dict[str, float]:
     """Full pivot point set (R3..S3) for a given method."""
-    from ..core.utils import pivot_points
+    from core.utils import pivot_points
     return pivot_points(high, low, close, method)
 
 

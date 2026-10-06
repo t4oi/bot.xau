@@ -4,17 +4,17 @@ import threading
 import time
 from typing import Dict, List, Optional
 
-from ..config.settings import get_settings
-from ..core.logging_config import get_logger
-from ..data.base import Candle
-from ..data.feed import FeedManager
-from ..risk.limits import RiskLimits
-from ..risk.position_sizer import PositionSizer
-from ..signal.generator import SignalGenerator, TradingSignal
-from ..strategies.multi_tf_confluence import MultiTimeframeConfluence
-from ..telegram_bot.client import TelegramClient
-from ..telegram_bot.formatter import SignalFormatter
-from ..telegram_bot.keyboards import KeyboardFactory
+from config.settings import get_settings
+from core.logging_config import get_logger
+from data.base import Candle
+from data.feed import FeedManager
+from risk.limits import RiskLimits
+from risk.position_sizer import PositionSizer
+from signals.generator import SignalGenerator, TradingSignal
+from strategies.multi_tf_confluence import MultiTimeframeConfluence
+from telegram_bot.client import TelegramClient
+from telegram_bot.formatter import SignalFormatter
+from telegram_bot.keyboards import KeyboardFactory
 
 logger = get_logger("scheduler.loop")
 

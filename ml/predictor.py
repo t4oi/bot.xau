@@ -2,9 +2,9 @@
 from __future__ import annotations
 from typing import Dict, List, Optional
 
-from ..config.constants import SignalDirection
-from ..core.logging_config import get_logger
-from ..data.base import Candle
+from config.constants import SignalDirection
+from core.logging_config import get_logger
+from data.base import Candle
 from .features import FeatureEngineer
 from .model import SignalPredictor
 

@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import List, Tuple
 
-from ..data.base import Candle
+from data.base import Candle
 from .base import Strategy, StrategyResult
 
 

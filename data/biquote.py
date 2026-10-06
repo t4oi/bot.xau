@@ -18,7 +18,7 @@ from config.constants import (
 from core.exceptions import DataSourceError
 from core.logging_config import get_logger
 from core.utils import safe_float, midpoint, round_price
-from data.base import Candle, DataSource, Tick
+from .base import Candle, DataSource, Tick
 
 logger = get_logger("data.biquote")
 

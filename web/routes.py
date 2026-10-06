@@ -3,7 +3,7 @@ from __future__ import annotations
 from flask import Flask, jsonify, request, Response
 from functools import wraps
 
-from ..config.settings import get_settings
+from config.settings import get_settings
 
 
 def check_auth(username: str, password: str) -> bool:

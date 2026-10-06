@@ -2,8 +2,8 @@
 from __future__ import annotations
 from typing import Optional
 
-from ..config.settings import get_settings
-from ..core.logging_config import get_logger
+from config.settings import get_settings
+from core.logging_config import get_logger
 from .client import TelegramClient
 
 logger = get_logger("telegram.admin")

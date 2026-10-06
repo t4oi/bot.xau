@@ -4,8 +4,8 @@ import datetime as dt
 from dataclasses import dataclass, field
 from typing import List
 
-from ..core.exceptions import RiskLimitError
-from ..core.utils import now_utc
+from core.exceptions import RiskLimitError
+from core.utils import now_utc
 
 
 @dataclass

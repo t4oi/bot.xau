@@ -6,7 +6,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Dict, List, Optional
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 
 logger = get_logger("execution.orders")
 

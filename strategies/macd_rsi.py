@@ -3,8 +3,8 @@ from __future__ import annotations
 import math
 from typing import List
 
-from ..data.base import Candle
-from ..indicators.momentum import macd, rsi, macd_cross
+from data.base import Candle
+from indicators.momentum import macd, rsi, macd_cross
 from .base import Strategy, StrategyResult
 
 

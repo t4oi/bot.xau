@@ -6,9 +6,9 @@ import os
 import urllib.request
 from typing import Any, Dict, List, Optional
 
-from ..config.constants import DEFAULT_SYMBOL
-from ..core.logging_config import get_logger
-from ..core.utils import safe_float
+from config.constants import DEFAULT_SYMBOL
+from core.logging_config import get_logger
+from core.utils import safe_float
 from .base import Candle, DataSource, Tick
 
 logger = get_logger("data.providers")

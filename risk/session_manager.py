@@ -2,8 +2,8 @@
 from __future__ import annotations
 from typing import Optional
 
-from ..config.constants import MarketSession, SESSION_WINDOWS
-from ..core.utils import now_utc
+from config.constants import MarketSession, SESSION_WINDOWS
+from core.utils import now_utc
 
 
 class SessionManager:
@@ -30,7 +30,7 @@ class SessionManager:
 
     @staticmethod
     def is_preferred(session: Optional[MarketSession] = None) -> bool:
-        from ..config.constants import PREFERRED_SESSIONS
+        from config.constants import PREFERRED_SESSIONS
         sess = session or SessionManager.current_session()
         return sess in PREFERRED_SESSIONS
 

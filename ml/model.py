@@ -6,7 +6,7 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 
 logger = get_logger("ml.model")
 

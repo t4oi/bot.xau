@@ -5,9 +5,9 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, List, Tuple
 
-from ..data.base import Candle
-from ..indicators.trend import adx, ema
-from ..indicators.volatility import average_true_range, bollinger_bands, bollinger_bandwidth
+from data.base import Candle
+from indicators.trend import adx, ema
+from indicators.volatility import average_true_range, bollinger_bands, bollinger_bandwidth
 
 
 class MarketRegime(str, Enum):

@@ -7,9 +7,9 @@ import urllib.parse
 import urllib.request
 from typing import Any, Dict, List, Optional
 
-from ..config.constants import TG_PARSE_MODE, TG_MAX_MESSAGE_LEN
-from ..core.exceptions import TelegramError
-from ..core.logging_config import get_logger
+from config.constants import TG_PARSE_MODE, TG_MAX_MESSAGE_LEN
+from core.exceptions import TelegramError
+from core.logging_config import get_logger
 
 logger = get_logger("telegram.client")
 

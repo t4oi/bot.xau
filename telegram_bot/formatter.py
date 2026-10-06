@@ -2,9 +2,9 @@
 from __future__ import annotations
 from typing import List
 
-from ..config.constants import SignalDirection, SignalStrength
-from ..core.utils import format_price, format_pct
-from ..signal.generator import TradingSignal
+from config.constants import SignalDirection, SignalStrength
+from core.utils import format_price, format_pct
+from signals.generator import TradingSignal
 
 
 class SignalFormatter:

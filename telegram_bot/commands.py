@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import Optional
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 from .client import TelegramClient
 from .formatter import SignalFormatter
 from .keyboards import KeyboardFactory
@@ -85,14 +85,14 @@ class ExtendedCommands:
             return True
 
         if text in ("/strategies", "الاستراتيجيات"):
-            from ..strategies.registry import get_registry
+            from strategies.registry import get_registry
             reg = get_registry()
             names = "\n".join(f"• {n}" for n in reg.all_names())
             self.client.send_message(f"🧠 <b>الاستراتيجيات النشطة ({len(reg)}):</b>\n{names}", chat_id)
             return True
 
         if text in ("/profile", "الملف"):
-            from ..config.profiles import list_profiles
+            from config.profiles import list_profiles
             self.client.send_message(f"⚙️ الملفات المتاحة: {', '.join(list_profiles())}", chat_id)
             return True
 

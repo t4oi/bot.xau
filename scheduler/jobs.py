@@ -4,9 +4,9 @@ import threading
 import time
 from typing import Optional
 
-from ..core.logging_config import get_logger
-from ..telegram_bot.client import TelegramClient
-from ..telegram_bot.formatter import SignalFormatter
+from core.logging_config import get_logger
+from telegram_bot.client import TelegramClient
+from telegram_bot.formatter import SignalFormatter
 
 logger = get_logger("scheduler.jobs")
 
@@ -39,7 +39,7 @@ class JobScheduler:
     def _daily_report(self, hour_utc: int = 21) -> None:
         while not self._stop.is_set():
             try:
-                from ..core.utils import now_utc
+                from core.utils import now_utc
                 if now_utc().hour == hour_utc and self.repo:
                     stats = self.repo.daily_stats()
                     self.telegram.send_message(self.formatter.format_daily_report(stats))

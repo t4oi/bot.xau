@@ -3,9 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Callable, List, Optional
 
-from ..config.constants import SignalDirection
-from ..core.logging_config import get_logger
-from ..data.base import Candle
+from config.constants import SignalDirection
+from core.logging_config import get_logger
+from data.base import Candle
 from .equity_curve import EquityCurve
 from .metrics import PerformanceMetrics, compute_metrics
 

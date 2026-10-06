@@ -5,8 +5,8 @@ from typing import Optional
 
 from flask import Flask, jsonify, render_template_string, request
 
-from ..config.settings import get_settings
-from ..core.logging_config import get_logger
+from config.settings import get_settings
+from core.logging_config import get_logger
 
 logger = get_logger("web.app")
 

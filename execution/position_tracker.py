@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 from .order_manager import OrderSide
 
 logger = get_logger("execution.positions")

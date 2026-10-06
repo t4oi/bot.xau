@@ -1,6 +1,6 @@
 """Daily report generator."""
 from __future__ import annotations
-from ..telegram_bot.formatter import SignalFormatter
+from telegram_bot.formatter import SignalFormatter
 
 
 class DailyReport:

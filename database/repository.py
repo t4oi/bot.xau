@@ -7,7 +7,7 @@ from typing import List, Optional
 from sqlalchemy import create_engine, desc
 from sqlalchemy.orm import sessionmaker, Session
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 from .models import Base, SignalRecord, TradeRecord, PerformanceSnapshot, BotStateRecord, init_db
 
 logger = get_logger("database.repository")

@@ -3,12 +3,12 @@ from __future__ import annotations
 import datetime as dt
 from typing import Dict, List, Optional
 
-from ..config.constants import (
+from config.constants import (
     GOLD_MAX_SPREAD, MIN_RISK_REWARD_RATIO, MIN_CONFLUENCE_PCT,
     MarketSession, SESSION_WINDOWS, PREFERRED_SESSIONS,
 )
-from ..core.logging_config import get_logger
-from ..core.utils import now_utc
+from core.logging_config import get_logger
+from core.utils import now_utc
 
 logger = get_logger("signal.filters")
 

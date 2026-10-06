@@ -3,10 +3,10 @@ from __future__ import annotations
 import math
 from typing import List
 
-from ..config.constants import SignalDirection
-from ..data.base import Candle
-from ..indicators.trend import ema, adx, supertrend
-from ..indicators.momentum import rsi
+from config.constants import SignalDirection
+from data.base import Candle
+from indicators.trend import ema, adx, supertrend
+from indicators.momentum import rsi
 from .base import Strategy, StrategyResult
 
 

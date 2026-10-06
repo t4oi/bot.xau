@@ -2,7 +2,7 @@
 from __future__ import annotations
 from dataclasses import dataclass
 
-from ..config.constants import SYMBOL_CONTRACT_SIZE, SYMBOL_PIP_VALUE_PER_LOT_USD
+from config.constants import SYMBOL_CONTRACT_SIZE, SYMBOL_PIP_VALUE_PER_LOT_USD
 
 
 @dataclass

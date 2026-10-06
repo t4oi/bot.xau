@@ -4,12 +4,12 @@ from __future__ import annotations
 import math
 from typing import List
 
-from ..config.constants import SignalDirection
-from ..data.base import Candle
-from ..indicators.trend import ema, supertrend
-from ..indicators.momentum import rsi, macd, stochastic
-from ..indicators.volatility import keltner_channels, average_true_range, bollinger_bands
-from ..indicators.volume import vwap, volume_spike
+from config.constants import SignalDirection
+from data.base import Candle
+from indicators.trend import ema, supertrend
+from indicators.momentum import rsi, macd, stochastic
+from indicators.volatility import keltner_channels, average_true_range, bollinger_bands
+from indicators.volume import vwap, volume_spike
 from .base import Strategy, StrategyResult
 
 

@@ -3,8 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Callable, List
 
-from ..core.logging_config import get_logger
-from ..data.base import Candle
+from core.logging_config import get_logger
+from data.base import Candle
 from .engine import BacktestEngine, BacktestResult, SignalFn
 
 logger = get_logger("backtest.walkforward")

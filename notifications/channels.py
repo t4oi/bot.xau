@@ -5,7 +5,7 @@ import urllib.request
 from abc import ABC, abstractmethod
 from typing import Dict, Optional
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 
 logger = get_logger("notifications.channels")
 

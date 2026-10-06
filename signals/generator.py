@@ -4,11 +4,11 @@ import uuid
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional
 
-from ..config.constants import SignalDirection, SignalStrength, DEFAULT_SYMBOL
-from ..core.logging_config import get_logger
-from ..core.utils import now_iso, round_price
-from ..data.base import Candle, Tick
-from ..strategies.base import SignalVote
+from config.constants import SignalDirection, SignalStrength, DEFAULT_SYMBOL
+from core.logging_config import get_logger
+from core.utils import now_iso, round_price
+from data.base import Candle, Tick
+from strategies.base import SignalVote
 from .confluence_scorer import ConfluenceScorer
 from .filters import SignalFilter
 from .tp_sl_calculator import TpSlCalculator

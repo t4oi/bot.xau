@@ -2,7 +2,7 @@
 from __future__ import annotations
 from typing import Any, Callable, Dict, Optional
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 from .client import TelegramClient
 from .formatter import SignalFormatter
 from .keyboards import KeyboardFactory

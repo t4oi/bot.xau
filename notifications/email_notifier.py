@@ -5,7 +5,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from typing import List, Optional
 
-from ..core.logging_config import get_logger
+from core.logging_config import get_logger
 from .channels import NotificationChannel
 
 logger = get_logger("notifications.email")

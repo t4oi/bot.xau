@@ -3,11 +3,12 @@ from __future__ import annotations
 import time
 from typing import Dict, List, Optional
 
+from config.settings import get_settings
 from core.logging_config import get_logger
-from data.base import Candle, DataSource, Tick
-from data.biquote import BiQuoteDataSource
-from data.cache import DataCache
-from data.storage import CandleStore
+from .base import Candle, DataSource, Tick
+from .biquote import BiQuoteDataSource
+from .cache import DataCache
+from .storage import CandleStore
 
 logger = get_logger("data.feed")
 
@@ -22,8 +23,6 @@ class FeedManager:
         store: Optional[CandleStore] = None,
         symbol: Optional[str] = None,
     ):
-        from config.settings import get_settings
-        
         settings = get_settings()
         self.symbol = symbol or settings.trading_symbol
         self.source = source or BiQuoteDataSource(

@@ -2,8 +2,8 @@
 from __future__ import annotations
 from typing import Dict, List, Optional
 
-from ..core.logging_config import get_logger
-from ..signal.generator import TradingSignal
+from core.logging_config import get_logger
+from signals.generator import TradingSignal
 from .order_manager import OrderManager, OrderSide, OrderType
 from .position_tracker import PositionTracker
 from .slippage import SlippageModel

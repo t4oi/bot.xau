@@ -3,11 +3,11 @@ from __future__ import annotations
 import math
 from typing import Dict, List, Optional
 
-from ..config.constants import SignalDirection
-from ..core.utils import round_price
-from ..data.base import Candle
-from ..indicators.volatility import average_true_range
-from ..indicators.fibonacci import fibonacci_extension, find_swing_points
+from config.constants import SignalDirection
+from core.utils import round_price
+from data.base import Candle
+from indicators.volatility import average_true_range
+from indicators.fibonacci import fibonacci_extension, find_swing_points
 
 
 class TpSlCalculator:

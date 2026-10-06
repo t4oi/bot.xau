@@ -3,8 +3,8 @@ from __future__ import annotations
 import math
 from typing import List
 
-from ..data.base import Candle
-from ..indicators.trend import ichimoku_cloud
+from data.base import Candle
+from indicators.trend import ichimoku_cloud
 from .base import Strategy, StrategyResult
 
 

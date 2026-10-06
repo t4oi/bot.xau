@@ -19,9 +19,9 @@ def cmd_scan_once(args):
     from config.settings import get_settings
     from data.feed import FeedManager
     from strategies.multi_tf_confluence import MultiTimeframeConfluence
-    from signal.generator import SignalGenerator
-    from signal.filters import SignalFilter
-    from signal.tp_sl_calculator import TpSlCalculator
+    from signals.generator import SignalGenerator
+    from signals.filters import SignalFilter
+    from signals.tp_sl_calculator import TpSlCalculator
     from risk.limits import RiskLimits
     from risk.position_sizer import PositionSizer
 

@@ -2,7 +2,7 @@
 from __future__ import annotations
 from datetime import datetime, timedelta
 
-from ..telegram_bot.formatter import SignalFormatter
+from telegram_bot.formatter import SignalFormatter
 
 
 class WeeklyReport:
