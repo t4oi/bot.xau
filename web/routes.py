@@ -1,28 +1,6 @@
-"""Dashboard API routes."""
+"""Dashboard API routes — NO authentication (open access as requested)."""
 from __future__ import annotations
-from flask import Flask, jsonify, request, Response
-from functools import wraps
-
-from config.settings import get_settings
-
-
-def check_auth(username: str, password: str) -> bool:
-    s = get_settings()
-    return username == s.web_username and password == s.web_password
-
-
-def authenticate():
-    return Response("Login required", 401, {"WWW-Authenticate": 'Basic realm="Login Required"'})
-
-
-def requires_auth(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        auth = request.authorization
-        if not auth or not check_auth(auth.username, auth.password):
-            return authenticate()
-        return f(*args, **kwargs)
-    return decorated
+from flask import Flask, jsonify, request
 
 
 def register_routes(app: Flask) -> None:
@@ -30,7 +8,6 @@ def register_routes(app: Flask) -> None:
     loop = lambda: app.config.get("scan_loop")
 
     @app.route("/")
-    @requires_auth
     def index():
         from .static.index_html import INDEX_HTML
         return INDEX_HTML
@@ -40,7 +17,6 @@ def register_routes(app: Flask) -> None:
         return jsonify({"status": "ok", "service": "xauusd-pro-bot"})
 
     @app.route("/api/signals")
-    @requires_auth
     def signals():
         r = repo()
         if not r:
@@ -56,22 +32,19 @@ def register_routes(app: Flask) -> None:
         } for s in recs])
 
     @app.route("/api/status")
-    @requires_auth
     def status():
         r = repo()
         l = loop()
         stats = r.daily_stats() if r else {}
+        import time as _time
         return jsonify({
             "running": l.state.running if l else False,
-            "last_scan_age": (
-                __import__("time").time() - l.state.last_scan if l and l.state.last_scan else None
-            ),
+            "last_scan_age": (_time.time() - l.state.last_scan) if l and l.state.last_scan else None,
             "recent_signals_count": len(l.state.recent_signals) if l else 0,
             "daily": stats,
         })
 
     @app.route("/api/performance")
-    @requires_auth
     def performance():
         r = repo()
         if not r:
@@ -86,7 +59,6 @@ def register_routes(app: Flask) -> None:
         } for s in snaps])
 
     @app.route("/api/trades/open")
-    @requires_auth
     def open_trades():
         r = repo()
         if not r:
