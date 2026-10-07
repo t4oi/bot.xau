@@ -41,11 +41,12 @@ class Settings(BaseSettings):
     max_daily_losses: int = Field(default=3, alias="MAX_DAILY_LOSSES")
     max_daily_loss_pct: float = Field(default=5.0, alias="MAX_DAILY_LOSS_PCT")
     max_drawdown_pct: float = Field(default=15.0, alias="MAX_DRAWDOWN_PCT")
-    min_risk_reward: float = Field(default=1.5, alias="MIN_RISK_REWARD")
+    min_risk_reward: float = Field(default=1.2, alias="MIN_RISK_REWARD")
     default_take_profits: int = Field(default=3, alias="DEFAULT_TAKE_PROFITS")
     atr_period: int = Field(default=14, alias="ATR_PERIOD")
-    atr_sl_multiplier: float = Field(default=1.5, alias="ATR_SL_MULTIPLIER")
+    atr_sl_multiplier: float = Field(default=1.3, alias="ATR_SL_MULTIPLIER")
     atr_tp_multiplier: float = Field(default=3.0, alias="ATR_TP_MULTIPLIER")
+    atr_tp_multipliers_str: str = Field(default="1.3,2.2,3.2", alias="ATR_TP_MULTIPLIERS")
 
     # --- Analysis ---
     active_timeframes: str = Field(
@@ -72,6 +73,7 @@ class Settings(BaseSettings):
     # --- Scheduler ---
     scan_interval_seconds: int = Field(default=60, alias="SCAN_INTERVAL_SECONDS")
     heartbeat_interval_seconds: int = Field(default=300, alias="HEARTBEAT_INTERVAL_SECONDS")
+    monitor_interval_seconds: int = Field(default=20, alias="MONITOR_INTERVAL_SECONDS")
     http_timeout_seconds: int = Field(default=HTTP_TIMEOUT_SECONDS, alias="HTTP_TIMEOUT_SECONDS")
 
     # ------------------------------------------------------------------
@@ -89,6 +91,18 @@ class Settings(BaseSettings):
     @property
     def timeframe_list(self) -> List[str]:
         return [t.strip() for t in self.active_timeframes.split(",") if t.strip()]
+
+    @property
+    def tp_multipliers_list(self) -> List[float]:
+        out: List[float] = []
+        for part in self.atr_tp_multipliers_str.split(","):
+            try:
+                v = float(part.strip())
+                if v > 0:
+                    out.append(v)
+            except ValueError:
+                continue
+        return out or [1.3, 2.2, 3.2]
 
     def is_admin(self, chat_id: int) -> bool:
         return chat_id in self.admin_id_list

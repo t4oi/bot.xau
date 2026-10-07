@@ -41,7 +41,8 @@ class ScanLoop:
                  risk_limits: RiskLimits,
                  position_sizer: PositionSizer,
                  repository=None,
-                 interval_seconds: int = 60):
+                 interval_seconds: int = 60,
+                 monitor=None):
         self.feed = feed
         self.mtf = mtf
         self.generator = generator
@@ -50,6 +51,7 @@ class ScanLoop:
         self.position_sizer = position_sizer
         self.repo = repository
         self.interval = interval_seconds
+        self.monitor = monitor
         self.state = BotState()
         self.state.feed = feed
         self.formatter = SignalFormatter()
@@ -61,13 +63,11 @@ class ScanLoop:
         settings = get_settings()
         logger.info("Starting scan cycle...")
         self.state.last_scan = time.time()  # fix: update even when no signal
-
         # 1. Risk gate
         allowed, reason = self.risk_limits.can_trade()
         if not allowed:
             logger.info("Trading blocked: %s", reason)
             return None
-
         # 2. Fetch multi-timeframe candles
         candles_by_tf: Dict[str, List[Candle]] = self.feed.multi_timeframe(
             settings.timeframe_list, limit=500
@@ -75,13 +75,11 @@ class ScanLoop:
         if not any(candles_by_tf.values()):
             logger.warning("No candle data available")
             return None
-
         # 3. Run all strategies on all timeframes
         votes_by_tf = self.mtf.scan(candles_by_tf)
         all_votes = [v for votes in votes_by_tf.values() for v in votes]
         logger.info("Collected %d votes across %d timeframes",
                     len(all_votes), len(votes_by_tf))
-
         # 4. Generate signal (includes confluence + TP/SL + filters)
         primary_candles = candles_by_tf.get(settings.primary_timeframe, [])
         tick = self.feed.tick()
@@ -90,29 +88,38 @@ class ScanLoop:
             primary_tf=settings.primary_timeframe, symbol=settings.trading_symbol,
             num_tps=settings.default_take_profits,
         )
-
         if not signal:
             logger.info("No signal this cycle.")
             return None
-
         # 5. Position sizing
         sizing = self.position_sizer.calculate(signal.entry, signal.stop_loss)
-
-        # 6. Deliver to Telegram
+        # 6. Deliver to Telegram (with retries)
         message = self.formatter.format_signal(signal, lot_size=sizing.lot_size)
-        sent = self.telegram.send_message(
-            message, reply_markup=self.keyboards.signal_actions(signal.id),
-        )
+        keyboard = self.keyboards.signal_actions(signal.id)
+        sent = False
+        for attempt in range(3):
+            try:
+                sent = self.telegram.send_message(message, reply_markup=keyboard)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("Telegram send attempt %d failed: %s", attempt + 1, exc)
+                sent = False
+            if sent:
+                break
+            time.sleep(2 * (attempt + 1))
         logger.info("Signal %s delivered: %s", signal.id, sent)
-
-        # 7. Persist
+        # 7. Persist (record actual delivery status so a retry job can re-send)
         self.risk_limits.record_signal()
         if self.repo:
             try:
-                self.repo.save_signal(signal)
+                self.repo.save_signal(signal, delivered=sent)
             except Exception as exc:  # noqa: BLE001
                 logger.warning("DB save failed: %s", exc)
-
+        # 8. Auto-track for TP/SL alerts (works even if user never presses confirm)
+        if self.monitor:
+            try:
+                self.monitor.add_signal(signal, lot_size=sizing.lot_size)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("Monitor add failed for %s: %s", signal.id, exc)
         self.state.recent_signals.append(signal)
         if len(self.state.recent_signals) > 50:
             self.state.recent_signals = self.state.recent_signals[-50:]

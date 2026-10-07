@@ -7,6 +7,7 @@ from typing import Optional
 from core.logging_config import get_logger
 from telegram_bot.client import TelegramClient
 from telegram_bot.formatter import SignalFormatter
+from telegram_bot.keyboards import KeyboardFactory
 
 logger = get_logger("scheduler.jobs")
 
@@ -19,6 +20,7 @@ class JobScheduler:
         self.repo = repository
         self.scan_loop = scan_loop
         self.formatter = SignalFormatter()
+        self.keyboards = KeyboardFactory()
         self._stop = threading.Event()
         self._threads = []
         self._last_heartbeat_alert = 0.0  # alert cooldown
@@ -71,11 +73,37 @@ class JobScheduler:
                     logger.error("Snapshot failed: %s", exc)
             self._stop.wait(interval)
 
+    def _redelivery(self, interval: int = 300) -> None:
+        """Re-send signals whose Telegram delivery failed."""
+        while not self._stop.is_set():
+            if self.repo:
+                try:
+                    pending = self.repo.undelivered_signals(since_hours=24)
+                    for rec in pending:
+                        if self._stop.is_set():
+                            return
+                        try:
+                            msg = self.formatter.format_from_record(rec)
+                            ok = self.telegram.send_message(
+                                msg, reply_markup=self.keyboards.signal_actions(rec.signal_id))
+                            if ok:
+                                self.repo.mark_delivered(rec.signal_id)
+                                logger.info("Redelivered signal %s", rec.signal_id)
+                            else:
+                                logger.warning("Redelivery failed for %s (will retry)", rec.signal_id)
+                        except Exception as exc:  # noqa: BLE001
+                            logger.error("Redelivery error for %s: %s", rec.signal_id, exc)
+                        self._stop.wait(3)  # pace out re-sends
+                except Exception as exc:  # noqa: BLE001
+                    logger.error("Redelivery job failed: %s", exc)
+            self._stop.wait(interval)
+
     def start(self) -> None:
         jobs = [
             ("heartbeat", self._heartbeat, (300,)),
             ("daily_report", self._daily_report, (21,)),
             ("snapshot", self._performance_snapshot, (3600,)),
+            ("redelivery", self._redelivery, (300,)),
         ]
         for name, fn, args in jobs:
             t = threading.Thread(target=fn, args=args, daemon=True, name=name)

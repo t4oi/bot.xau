@@ -32,6 +32,7 @@ from telegram_bot.client import TelegramClient
 from telegram_bot.handlers import CommandHandler
 from scheduler.loop import ScanLoop
 from scheduler.jobs import JobScheduler
+from execution.signal_monitor import SignalMonitor
 
 
 def bootstrap():
@@ -71,7 +72,7 @@ def bootstrap():
     calculator = TpSlCalculator(
         atr_period=settings.atr_period,
         sl_multiplier=settings.atr_sl_multiplier,
-        tp_multipliers=[1.5, 3.0, 5.0],
+        tp_multipliers=settings.tp_multipliers_list,
     )
     sig_filter = SignalFilter(
         min_confluence=settings.min_confluence_score,
@@ -95,15 +96,21 @@ def bootstrap():
     else:
         logger.warning("Could not verify Telegram bot token — check connectivity")
 
+    # Signal monitor: watches price and alerts on TP1/TP2/TP3/SL hits
+    monitor = SignalMonitor(telegram=telegram, feed=feed, repository=repo,
+                            interval_seconds=settings.monitor_interval_seconds)
+
     # Scan loop
     scan_loop = ScanLoop(
         feed=feed, mtf=mtf, generator=generator, telegram=telegram,
         risk_limits=risk_limits, position_sizer=position_sizer,
         repository=repo, interval_seconds=settings.scan_interval_seconds,
+        monitor=monitor,
     )
 
     # Command handler (for incoming Telegram messages)
-    handler = CommandHandler(telegram, bot_state=scan_loop.state)
+    handler = CommandHandler(telegram, bot_state=scan_loop.state, monitor=monitor,
+                             repository=repo, scan_loop=scan_loop)
 
     # Background jobs
     jobs = JobScheduler(telegram=telegram, repository=repo, scan_loop=scan_loop)
@@ -112,7 +119,7 @@ def bootstrap():
         "settings": settings, "feed": feed, "repo": repo,
         "risk_limits": risk_limits, "position_sizer": position_sizer,
         "generator": generator, "mtf": mtf, "telegram": telegram,
-        "scan_loop": scan_loop, "handler": handler, "jobs": jobs,
+        "scan_loop": scan_loop, "handler": handler, "jobs": jobs, "monitor": monitor,
     }
 
 
@@ -193,6 +200,7 @@ def main():
     # Start scanner
     components["scan_loop"].start(blocking=False)
     components["jobs"].start()
+    components["monitor"].start()
 
     # Telegram polling in background
     tg_thread = threading.Thread(

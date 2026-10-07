@@ -28,7 +28,7 @@ class Repository:
         return self._Session()
 
     # --- Signals ---
-    def save_signal(self, signal) -> int:
+    def save_signal(self, signal, delivered: bool = True) -> int:
         with self.session() as s:
             rec = SignalRecord(
                 signal_id=signal.id, symbol=signal.symbol,
@@ -38,7 +38,7 @@ class Repository:
                 risk_reward=signal.risk_reward, confluence_pct=signal.confluence_pct,
                 timeframe=signal.timeframe, reasons=json.dumps(signal.reasons),
                 atr=signal.atr, spread=signal.spread, session=signal.session,
-                delivered=True,
+                delivered=delivered,
             )
             s.add(rec)
             s.commit()
@@ -47,6 +47,21 @@ class Repository:
     def recent_signals(self, limit: int = 10) -> List[SignalRecord]:
         with self.session() as s:
             return s.query(SignalRecord).order_by(desc(SignalRecord.created_at)).limit(limit).all()
+
+    def undelivered_signals(self, since_hours: int = 24) -> List[SignalRecord]:
+        since = datetime.utcnow() - timedelta(hours=since_hours)
+        with self.session() as s:
+            return s.query(SignalRecord).filter(
+                SignalRecord.created_at >= since,
+                SignalRecord.delivered == False,  # noqa: E712
+            ).order_by(SignalRecord.created_at).all()
+
+    def mark_delivered(self, signal_id: str) -> None:
+        with self.session() as s:
+            rec = s.query(SignalRecord).filter_by(signal_id=signal_id).first()
+            if rec:
+                rec.delivered = True
+                s.commit()
 
     def signals_today(self) -> int:
         today = datetime.utcnow().date()

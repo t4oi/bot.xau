@@ -53,6 +53,37 @@ class SignalFormatter:
             f"{'='*30}"
         )
 
+    def format_from_record(self, rec) -> str:
+        """Format a persisted SignalRecord (for re-sending undelivered signals)."""
+        dir_label = "🟢 BUY" if (rec.direction or "").upper() == "BUY" else "🔴 SELL"
+        try:
+            tps = [float(x) for x in (rec.take_profits or "").split(",") if x.strip()]
+        except Exception:
+            tps = []
+        tp_lines = "\n".join(
+            f"   🎯 TP{i+1}: <b>{format_price(tp)}</b>" for i, tp in enumerate(tps)
+        )
+        strength = rec.strength or "MODERATE"
+        created = rec.created_at.isoformat() if hasattr(rec.created_at, "isoformat") else str(rec.created_at)
+        return (
+            f"{'='*30}\n"
+            f"📊 <b>إشارة تداول — {rec.symbol}</b> <i>(إعادة إرسال)</i>\n"
+            f"{'='*30}\n\n"
+            f"{dir_label}  <b>{strength.replace('_',' ')}</b>\n"
+            f"⏱ الفريم: <b>{rec.timeframe}</b>\n"
+            f"📈 نسبة التقاء: <b>{rec.confluence_pct:.1f}%</b>\n"
+            f"⚖️ نسبة المخاطرة للعائد: <b>1:{rec.risk_reward:.1f}</b>\n\n"
+            f"💎 الدخول: <b>{format_price(rec.entry)}</b>\n"
+            f"🛑 الستوب لوس: <b>{format_price(rec.stop_loss)}</b>\n"
+            f"{tp_lines}\n\n"
+            f"🌍 الجلسة: {rec.session or ''}\n"
+            f"💹 ATR: {rec.atr:.2f}\n"
+            f"🕐 {created}\n"
+            f"🔖 ID: <code>{rec.signal_id}</code>\n\n"
+            f"<i>⚠️ هذه إشارة تحليلية وليست نصيحة استثمارية.</i>\n"
+            f"{'='*30}"
+        )
+
     def format_price_alert(self, symbol: str, price: float, change_pct: float,
                            high: float, low: float, spread: float) -> str:
         arrow = "📈" if change_pct >= 0 else "📉"
