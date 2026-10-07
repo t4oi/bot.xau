@@ -1,7 +1,5 @@
 # XAUUSD Pro Signal Bot — minimal runtime dependencies
-requests>=2.31.0
-httpx>=0.25.0
-python-telegram-bot>=20.7
+# Removed: requests, httpx, python-telegram-bot, tenacity — bot uses urllib directly
 numpy>=1.26.0
 SQLAlchemy>=2.0.23
 Flask>=3.0.0
@@ -9,4 +7,3 @@ gunicorn>=21.2.0
 python-dotenv>=1.0.0
 pydantic>=2.5.0
 pydantic-settings>=2.1.0
-tenacity>=8.2.3
