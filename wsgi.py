@@ -38,7 +38,7 @@ def _poll_telegram(handler, client, log):
     offset = 0
     while True:
         try:
-            updates = client.get_updates(offset=offset, timeout=20)
+            updates = client.get_updates(offset=offset, timeout=25)
             for upd in updates:
                 offset = upd["update_id"] + 1
                 cb = upd.get("callback_query")
@@ -58,6 +58,8 @@ def _poll_telegram(handler, client, log):
                         handler.handle(chat_id, text)
                     except Exception as exc:  # noqa: BLE001
                         log.error("Message handling failed: %s", exc)
+            if not updates:
+                time.sleep(2)
         except Exception as exc:  # noqa: BLE001
             log.error("Telegram polling error: %s", exc)
             time.sleep(5)

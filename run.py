@@ -128,7 +128,7 @@ def run_telegram_polling(handler, client, logger):
     offset = 0
     while True:
         try:
-            updates = client.get_updates(offset=offset, timeout=20)
+            updates = client.get_updates(offset=offset, timeout=25)
             for upd in updates:
                 offset = upd["update_id"] + 1
                 msg = upd.get("message") or upd.get("callback_query", {}).get("message")
@@ -141,6 +141,8 @@ def run_telegram_polling(handler, client, logger):
                 else:
                     text = msg.get("text", "")
                     handler.handle(chat_id, text)
+            if not updates:
+                import time as _t; _t.sleep(2)
         except Exception as exc:  # noqa: BLE001
             logger.error("Telegram polling error: %s", exc)
             import time; time.sleep(5)

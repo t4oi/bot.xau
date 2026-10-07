@@ -19,7 +19,7 @@ class TelegramClient:
 
     BASE = "https://api.telegram.org/bot{token}/{method}"
 
-    def __init__(self, token: str, default_chat_id: str = "", timeout: int = 20):
+    def __init__(self, token: str, default_chat_id: str = "", timeout: int = 45):
         self.token = token
         self.default_chat_id = default_chat_id
         self.timeout = timeout
@@ -56,7 +56,11 @@ class TelegramClient:
             logger.error("Telegram HTTP %s on %s", exc.code, method)
             raise TelegramError(f"HTTP {exc.code}") from exc
         except Exception as exc:  # noqa: BLE001
-            logger.error("Telegram request failed: %s", exc)
+            msg = str(exc)
+            if "timed out" in msg.lower() or "timeout" in msg.lower():
+                logger.warning("Telegram request timed out (will retry): %s", exc)
+            else:
+                logger.error("Telegram request failed: %s", exc)
             raise TelegramError(str(exc)) from exc
 
     def send_message(self, text: str, chat_id: Optional[str] = None,
@@ -99,13 +103,21 @@ class TelegramClient:
         except TelegramError:
             return False
 
-    def get_updates(self, offset: int = 0, timeout: int = 30) -> List[Dict]:
+    def get_updates(self, offset: int = 0, timeout: int = 25) -> List[Dict]:
+        # Long-poll timeout must be shorter than the socket read timeout (self.timeout)
+        # otherwise urllib raises "read operation timed out" on every idle poll.
+        long_poll = min(timeout, max(5, self.timeout - 15))
         try:
-            result = self._api("getUpdates", {"offset": offset, "timeout": timeout})
+            result = self._api("getUpdates", {"offset": offset, "timeout": long_poll})
             if result and result.get("ok"):
                 return result.get("result", [])
-        except TelegramError:
-            pass
+        except TelegramError as exc:
+            # A read timeout during long-polling is normal (no updates) — don't spam
+            if "timed out" not in str(exc).lower():
+                logger.error("getUpdates failed: %s", exc)
+        except Exception as exc:  # noqa: BLE001
+            if "timed out" not in str(exc).lower():
+                logger.error("getUpdates error: %s", exc)
         return []
 
     def delete_webhook(self) -> bool:
